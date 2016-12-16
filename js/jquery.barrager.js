@@ -31,7 +31,7 @@
 			})
 		}
 		
-		$(id).animate({'margin-right': window_width}, barrage.speed, 'linear', function() {
+		$(id).velocity({'margin-right': window_width}, barrage.speed, 'linear', function() {
 			$(this).remove()
 		})
 	}

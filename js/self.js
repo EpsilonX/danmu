@@ -25,7 +25,7 @@ $(function() {
     			close: false, 
     			color: '#000000', 
     			info: adData[i].text, 
-    			speed: 4000,
+    			speed: 3000,
     			isAd: adData[i].isAd,
     			callback: callback,
     			params: {
@@ -60,7 +60,7 @@ $(function() {
 				showScreen('#screen3')
 				startDanmu()
 			} else {
-				var src = 'img/' + i + '.png'
+				var src = 'img/time' + i + '.png'
     			$('#timer').attr('src', src)
     			i--
 			}

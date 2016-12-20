@@ -30,10 +30,11 @@
 				barrage.callback(barrage.params)
 			})
 		}
+		$(id).css('margin-right', 300)
 		
-		$(id).velocity({'margin-right': window_width}, barrage.speed, 'linear', function() {
-			$(this).remove()
-		})
+//		$(id).velocity({'margin-right': window_width}, barrage.speed, 'linear', function() {
+//			$(this).remove()
+//		})
 	}
  
 	$.fn.barrager.removeAll = function(){

@@ -16,7 +16,7 @@
 	}
 
 	(function initData () {
-		showScreen(3)
+		showScreen(1)
 	})()
 	
 	function getAdInfo () {
@@ -58,15 +58,15 @@
 	        }
     	}, 500)
 	}
-	startDanmu()
+	
 	function selectTeam (team) {
 		teamType = team
-		showScreen('#screen2')
+		showScreen(2)
 		var i = 2
 		var timer = setInterval(function () {
 			if (i === 0) {
 				clearTimeout(timer)
-				showScreen('#screen3')
+				showScreen(3)
 				startDanmu()
 			} else {
 				var src = 'img/time' + i + '.png'

@@ -47,43 +47,97 @@
 		<div class="score">
 			<div class="left">
 				<div class="left-indemo" id="red">
-					<img src="img/0.png"/>
+					<!--<img src="img/0.png"/>-->
 				</div>
 			</div>
 			<div class="right">
 				<div class="right-indemo" id="blue">
-					<img src="img/0.png"/>
+					<!--<img src="img/0.png"/>-->
 				</div>
 			</div>
 		</div>
-		<script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
 		<script>
-		
-		function showScore (score) {
-			var str = score + ''
-			var arr = []
-			for (i = 0, len = str.length; i < len; i++) {
-				arr.push('<img src="img/'+ str[i] +'.png"/>')
+		(function() {
+			function Ajax(type, url, data, success, failed){
+			    // 创建ajax对象
+			    var xhr = null;
+			    if(window.XMLHttpRequest){
+			        xhr = new XMLHttpRequest();
+			    } else {
+			        xhr = new ActiveXObject('Microsoft.XMLHTTP')
+			    }
+			 
+			    var type = type.toUpperCase();
+			    // 用于清除缓存
+			    var random = Math.random();
+			 
+			    if(typeof data == 'object'){
+			        var str = '';
+			        for(var key in data){
+			            str += key+'='+data[key]+'&';
+			        }
+			        data = str.replace(/&$/, '');
+			    }
+			 
+			    if(type == 'GET'){
+			        if(data){
+			            xhr.open('GET', url + '?' + data, true);
+			        } else {
+			            xhr.open('GET', url + '?t=' + random, true);
+			        }
+			        xhr.send();
+			 
+			    } else if(type == 'POST'){
+			        xhr.open('POST', url, true);
+			        // 如果需要像 html 表单那样 POST 数据，请使用 setRequestHeader() 来添加 http 头。
+			        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+			        xhr.send(data);
+			    }
+			 
+			    // 处理返回数据
+			    xhr.onreadystatechange = function(){
+			        if(xhr.readyState == 4){
+			            if(xhr.status == 200){
+			                success(xhr.responseText);
+			            } else {
+			                if(failed){
+			                    failed(xhr.status);
+			                }
+			            }
+			        }
+			    }
 			}
-			return arr.join('')
-		}
-		
-		var redDom = document.getElementById('red')
-		redDom.innerHTML = showScore(1803)
-		
-		var blueDom = document.getElementById('blue')
-		blueDom.innerHTML = showScore(13502)
-//			(function() {
-//				$.ajax({
-//					type:"get",
-//					url:"http://10.156.12.26/score",
-//					async:true,
-//					success: function(data) {
-//						console.log(data)
-//					}
-//				});
-//			})()
-			//document.body.innerHTML = '<p>红：188</p><p>蓝：168</p>'
+			
+			function showScore (score) {
+				var str = score + ''
+				var arr = []
+				for (i = 0, len = str.length; i < len; i++) {
+					arr.push('<img src="img/'+ str[i] +'.png"/>')
+				}
+				return arr.join('')
+			}
+			
+			var timer = setInterval(function() {
+				var newTime = 0
+				Ajax('get', 'json/data.json', {}, function(data){
+					data = JSON.parse(data)
+					if (data.timestamp <= newTime) {
+						return
+					}
+					
+					newTime = data.timestamp
+					
+				    var redDom = document.getElementById('red')
+					redDom.innerHTML = showScore(data.scores[0])
+					
+					var blueDom = document.getElementById('blue')
+					blueDom.innerHTML = showScore(data.scores[1])
+				}, function(error){
+				    console.log(error);
+				});
+			}, 1000)
+		})()
+			
 		</script>
 	</body>
 </html>

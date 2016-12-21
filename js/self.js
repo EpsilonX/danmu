@@ -1,23 +1,29 @@
 (function() {
-//	var dom = $('body')
 	var teamType = ''
+	var screenStatus = ''
 	
 	function callback (params) {
 		console.log(params, teamType)
-		    	
-//  	$.ajax({
-//  		type:"get",
-//  		url:"/score",
-//  		async:true,
-//  		success: function(data) {
-//  			console.log(data)
-//  		}
-//  	});
 	}
 
 	(function initData () {
 		showScreen(1)
+		getScreenStatus()
 	})()
+	
+	function getScreenStatus () {
+		window.addEventListener("onorientationchange" in window ? "orientationchange" : "resize", function() {
+	        if (window.orientation === 180 || window.orientation === 0) { 
+	            screenStatus = 0 //横屏
+	        } 
+	        if (window.orientation === 90 || window.orientation === -90 ){ 
+	            screenStatus = 1 //竖屏
+	        }  
+	    }, false); 
+	    setTimeout(function() {
+	    	getScreenStatus()
+	    }, 500)
+	}
 	
 	function getAdInfo () {
 		var arr = []
@@ -56,7 +62,7 @@
 	        if (j === len) {
 	        	clearInterval(timer)
 	        }
-    	}, 500)
+    	}, 1000)
 	}
 	
 	function selectTeam (team) {
@@ -73,7 +79,7 @@
 				document.getElementById('timer').setAttribute('src', src)
     			i--
 			}
-		}, 1000)
+		}, 800)
 	}
 	
 	function getRandom (min, max) {
@@ -94,6 +100,7 @@
 		function Obj(params) {
 			this.text = params.text
 			this.isAd = params.isAd
+			this.isClicked = false
 		}
 		
 		Obj.prototype.pushDanmu = function() {
@@ -108,15 +115,15 @@
 			if (this.isAd) {
 				this.addEventListener(danmuDom)
 			}
-			
+			var moveTime = window.innerWidth / 100 | 0
 			var timer = setTimeout(function () {
 				danmuDom.style.transform = 'translateX('+ -1 * window.innerWidth +'px)'
-				danmuDom.style.transition = 'transform 3s linear'
+				danmuDom.style.transition = 'transform '+ moveTime +'s linear'
 				clearTimeout(timer)
 				var inTimer = setTimeout(function() {
 					danmuDom.parentNode.removeChild(danmuDom)
 					clearTimeout(inTimer)
-				}, 3000)
+				}, moveTime * 1000)
 			}, 10)
 		}
 		
@@ -125,12 +132,18 @@
 		}
 		
 		Obj.prototype.addEventListener = function(dom) {
+			var _this = this
 			dom.addEventListener('touchstart', function() {
 				// 分数增加
-				Ajax('get', 'json/data.json', {teamType: teamType}, function(data){
-				    dom.style.color = 'orange'
+				if (_this.isClicked) return
+				var team = {'red': 0, 'blue': 1}
+				dom.style.color = 'orange'
+				_this.isClicked = true
+				Ajax('get', 'json/data.json', {team: team[teamType]}, function(data){
+				    // todo
 				}, function(error){
-				    console.log(error);
+					dom.style.color = 'black'
+					_this.isClicked = false
 				});
 			})
 		}
@@ -187,11 +200,4 @@
 	    }
 	}
 	 
-	// 测试调用
-//	var sendData = {name:'asher',sex:'male'};
-//	Ajax('get', 'data/data.html', sendData, function(data){
-//	    console.log(data);
-//	}, function(error){
-//	    console.log(error);
-//	});
 })()

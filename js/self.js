@@ -1,6 +1,5 @@
 (function() {
 	var teamType = ''
-	var screenStatus = ''
 	
 	function callback (params) {
 		console.log(params, teamType)
@@ -11,23 +10,8 @@
 		img.src = 'img/logo.png'
 		img.onload = function () {
 			showScreen(1)
-			getScreenStatus()
 		}
 	})()
-	
-	function getScreenStatus () {
-		window.addEventListener("onorientationchange" in window ? "orientationchange" : "resize", function() {
-	        if (window.orientation === 180 || window.orientation === 0) { 
-	            screenStatus = 0 //横屏
-	        } 
-	        if (window.orientation === 90 || window.orientation === -90 ){ 
-	            screenStatus = 1 //竖屏
-	        }  
-	    }, false); 
-	    setTimeout(function() {
-	    	getScreenStatus()
-	    }, 500)
-	}
 	
 	function getAdInfo () {
 		var arr = []

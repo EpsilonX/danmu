@@ -19,7 +19,6 @@
 				z-index: 1;
 			}
 			.score img {
-				width: 80px;
 				height: 100px;
 			}
 			.left, .right {
@@ -44,6 +43,18 @@
 	</head>
 	<body>
 		<img src="img/bg-score.png" alt="背景" class="bg"/>
+		<div style="display: none;">
+			<img src="img/0.png" alt="" />
+			<img src="img/1.png" alt="" />
+			<img src="img/2.png" alt="" />
+			<img src="img/3.png" alt="" />
+			<img src="img/4.png" alt="" />
+			<img src="img/5.png" alt="" />
+			<img src="img/6.png" alt="" />
+			<img src="img/7.png" alt="" />
+			<img src="img/8.png" alt="" />
+			<img src="img/9.png" alt="" />
+		</div>
 		<div class="score">
 			<div class="left">
 				<div class="left-indemo" id="red">
@@ -119,7 +130,8 @@
 			
 			var timer = setInterval(function() {
 				var newTime = 0
-				Ajax('get', 'json/data.json', {}, function(data){
+				Ajax('get', '/bullet-screen/score', {}, function(data){
+//				Ajax('get', 'json/data.json', {}, function(data){
 					data = JSON.parse(data)
 					if (data.timestamp <= newTime) {
 						return

@@ -43,11 +43,6 @@ body{font-family: "微软雅黑";}
 	margin-top: -118px;
 }
 
-.screen2 img {
-	width: 172px;
-	height: 233px;
-}
-
 body {
 	padding: 0;
 	margin: 0;
@@ -57,6 +52,14 @@ body {
 	width: 100%;
 	height: 100%;
 }
+
+.bg-danmu-logo {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background: url(../img/logo.png) no-repeat center;
+}
+
 .bg-team {
     position: absolute;
     z-index: 1;
@@ -89,22 +92,20 @@ body {
 .left img,
 .right img {
 	position: absolute;
-	bottom: 50%;
-	margin-bottom: -50px;
+	top: 20px;
 	width: 100px;
 	animation:teamMove 1s;
 }
 .left img {
-	left: 50%;
-	margin-left: -95px;
+	left: 20px;
 }
 .right img {
-	right: 50%;
-	margin-right: -95px;
+	right: 20px;
 }
 
-.screen2,
-.screen3 {
+#screen1,
+#screen2,
+#screen3 {
 	display: none;
 }
 
